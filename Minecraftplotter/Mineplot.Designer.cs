@@ -35,50 +35,46 @@
             this.changeBinvoxDirButton = new System.Windows.Forms.Button();
             this.binvoxDirEntry = new System.Windows.Forms.FolderBrowserDialog();
             this.logBox = new System.Windows.Forms.ListBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.player_relative = new System.Windows.Forms.RadioButton();
+            this.coordinates_relative = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.x = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.coordinates_relative_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.coordinates_relative_x = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.coordinates_relative_z = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.coordinates_relative_y = new System.Windows.Forms.TextBox();
+            this.player_relative_group = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.player_relative_x = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.player_relative_z = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.player_relative_y = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.x = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.coordinates_relative_group.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.player_relative_group.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
-            this.flowLayoutPanel3.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +101,7 @@
             this.filesListBox.FormattingEnabled = true;
             this.filesListBox.Location = new System.Drawing.Point(6, 19);
             this.filesListBox.Name = "filesListBox";
-            this.filesListBox.Size = new System.Drawing.Size(269, 173);
+            this.filesListBox.Size = new System.Drawing.Size(311, 121);
             this.filesListBox.TabIndex = 4;
             this.filesListBox.ValueMember = "FullName";
             this.filesListBox.SelectedIndexChanged += new System.EventHandler(this.filesList_SelectedIndexChanged);
@@ -114,9 +110,9 @@
             // 
             this.plotButton.Enabled = false;
             this.plotButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.plotButton.Location = new System.Drawing.Point(306, 12);
+            this.plotButton.Location = new System.Drawing.Point(253, 352);
             this.plotButton.Name = "plotButton";
-            this.plotButton.Size = new System.Drawing.Size(148, 33);
+            this.plotButton.Size = new System.Drawing.Size(85, 59);
             this.plotButton.TabIndex = 5;
             this.plotButton.Text = "Plot!";
             this.plotButton.UseVisualStyleBackColor = true;
@@ -124,7 +120,7 @@
             // 
             // changeBinvoxDirButton
             // 
-            this.changeBinvoxDirButton.Location = new System.Drawing.Point(146, 198);
+            this.changeBinvoxDirButton.Location = new System.Drawing.Point(188, 144);
             this.changeBinvoxDirButton.Name = "changeBinvoxDirButton";
             this.changeBinvoxDirButton.Size = new System.Drawing.Size(129, 23);
             this.changeBinvoxDirButton.TabIndex = 6;
@@ -141,207 +137,70 @@
             this.logBox.FormattingEnabled = true;
             this.logBox.Location = new System.Drawing.Point(6, 19);
             this.logBox.Name = "logBox";
-            this.logBox.Size = new System.Drawing.Size(425, 82);
+            this.logBox.Size = new System.Drawing.Size(311, 82);
             this.logBox.TabIndex = 7;
             this.logBox.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
-            // radioButton1
+            // player_relative
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(107, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Relative to player";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.player_relative.AutoSize = true;
+            this.player_relative.Location = new System.Drawing.Point(6, 95);
+            this.player_relative.Name = "player_relative";
+            this.player_relative.Size = new System.Drawing.Size(107, 17);
+            this.player_relative.TabIndex = 0;
+            this.player_relative.TabStop = true;
+            this.player_relative.Text = "Relative to player";
+            this.player_relative.UseVisualStyleBackColor = true;
+            this.player_relative.CheckedChanged += new System.EventHandler(this.player_relative_CheckedChanged);
             // 
-            // radioButton2
+            // coordinates_relative
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 95);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.radioButton2.Size = new System.Drawing.Size(134, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Relative to coordinates";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.coordinates_relative.AutoSize = true;
+            this.coordinates_relative.Checked = true;
+            this.coordinates_relative.Location = new System.Drawing.Point(6, 19);
+            this.coordinates_relative.Name = "coordinates_relative";
+            this.coordinates_relative.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.coordinates_relative.Size = new System.Drawing.Size(134, 17);
+            this.coordinates_relative.TabIndex = 1;
+            this.coordinates_relative.TabStop = true;
+            this.coordinates_relative.Text = "Relative to coordinates";
+            this.coordinates_relative.UseVisualStyleBackColor = true;
+            this.coordinates_relative.CheckedChanged += new System.EventHandler(this.coordinates_relative_CheckedChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.groupBox3);
-            this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Location = new System.Drawing.Point(306, 54);
+            this.groupBox1.Controls.Add(this.coordinates_relative_group);
+            this.groupBox1.Controls.Add(this.player_relative_group);
+            this.groupBox1.Controls.Add(this.player_relative);
+            this.groupBox1.Controls.Add(this.coordinates_relative);
+            this.groupBox1.Location = new System.Drawing.Point(15, 234);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(148, 174);
+            this.groupBox1.Size = new System.Drawing.Size(232, 174);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Position";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // groupBox2
+            // coordinates_relative_group
             // 
-            this.groupBox2.Controls.Add(this.flowLayoutPanel3);
-            this.groupBox2.Location = new System.Drawing.Point(6, 42);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(134, 47);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Add offset";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.flowLayoutPanel2);
-            this.groupBox3.Location = new System.Drawing.Point(6, 118);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(134, 50);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Coordinates";
-            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.filesListBox);
-            this.groupBox4.Controls.Add(this.changeBinvoxDirButton);
-            this.groupBox4.Location = new System.Drawing.Point(15, 54);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(285, 230);
-            this.groupBox4.TabIndex = 9;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "File to plot";
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox5.Location = new System.Drawing.Point(306, 234);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(148, 50);
-            this.groupBox5.TabIndex = 10;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Translation";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(14, 3);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(24, 20);
-            this.textBox1.TabIndex = 0;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(52, 3);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(24, 20);
-            this.textBox2.TabIndex = 1;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(91, 3);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(24, 20);
-            this.textBox3.TabIndex = 2;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.x);
-            this.flowLayoutPanel1.Controls.Add(this.textBox1);
-            this.flowLayoutPanel1.Controls.Add(this.label1);
-            this.flowLayoutPanel1.Controls.Add(this.textBox2);
-            this.flowLayoutPanel1.Controls.Add(this.label5);
-            this.flowLayoutPanel1.Controls.Add(this.textBox3);
-            this.flowLayoutPanel1.Controls.Add(this.label3);
-            this.flowLayoutPanel1.Controls.Add(this.label4);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(15, 18);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 26);
-            this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // x
-            // 
-            this.x.AutoSize = true;
-            this.x.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.x.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.x.Location = new System.Drawing.Point(0, 5);
-            this.x.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.x.Name = "x";
-            this.x.Size = new System.Drawing.Size(14, 16);
-            this.x.TabIndex = 3;
-            this.x.Text = "x";
-            this.x.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(38, 5);
-            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(14, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "z";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label3.Location = new System.Drawing.Point(3, 31);
-            this.label3.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "label3";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label4.Location = new System.Drawing.Point(41, 31);
-            this.label4.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "label4";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(76, 5);
-            this.label5.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(15, 16);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "y";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.coordinates_relative_group.Controls.Add(this.flowLayoutPanel2);
+            this.coordinates_relative_group.Location = new System.Drawing.Point(6, 42);
+            this.coordinates_relative_group.Name = "coordinates_relative_group";
+            this.coordinates_relative_group.Size = new System.Drawing.Size(220, 50);
+            this.coordinates_relative_group.TabIndex = 9;
+            this.coordinates_relative_group.TabStop = false;
+            this.coordinates_relative_group.Text = "Coordinates";
             // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.label6);
-            this.flowLayoutPanel2.Controls.Add(this.textBox4);
-            this.flowLayoutPanel2.Controls.Add(this.label7);
-            this.flowLayoutPanel2.Controls.Add(this.textBox5);
+            this.flowLayoutPanel2.Controls.Add(this.coordinates_relative_x);
             this.flowLayoutPanel2.Controls.Add(this.label8);
-            this.flowLayoutPanel2.Controls.Add(this.textBox6);
-            this.flowLayoutPanel2.Controls.Add(this.label9);
-            this.flowLayoutPanel2.Controls.Add(this.label10);
+            this.flowLayoutPanel2.Controls.Add(this.coordinates_relative_y);
+            this.flowLayoutPanel2.Controls.Add(this.label7);
+            this.flowLayoutPanel2.Controls.Add(this.coordinates_relative_z);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(6, 18);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(122, 26);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(208, 26);
             this.flowLayoutPanel2.TabIndex = 11;
             // 
             // label6
@@ -357,20 +216,21 @@
             this.label6.Text = "x";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox4
+            // coordinates_relative_x
             // 
-            this.textBox4.Location = new System.Drawing.Point(14, 3);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(24, 20);
-            this.textBox4.TabIndex = 0;
+            this.coordinates_relative_x.Location = new System.Drawing.Point(14, 3);
+            this.coordinates_relative_x.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.coordinates_relative_x.Name = "coordinates_relative_x";
+            this.coordinates_relative_x.Size = new System.Drawing.Size(55, 20);
+            this.coordinates_relative_x.TabIndex = 0;
+            this.coordinates_relative_x.Text = "0";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(38, 5);
+            this.label7.Location = new System.Drawing.Point(141, 5);
             this.label7.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 16);
@@ -378,20 +238,21 @@
             this.label7.Text = "z";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox5
+            // coordinates_relative_z
             // 
-            this.textBox5.Location = new System.Drawing.Point(52, 3);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(24, 20);
-            this.textBox5.TabIndex = 1;
+            this.coordinates_relative_z.Location = new System.Drawing.Point(155, 3);
+            this.coordinates_relative_z.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.coordinates_relative_z.Name = "coordinates_relative_z";
+            this.coordinates_relative_z.Size = new System.Drawing.Size(53, 20);
+            this.coordinates_relative_z.TabIndex = 1;
+            this.coordinates_relative_z.Text = "0";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(76, 5);
+            this.label8.Location = new System.Drawing.Point(69, 5);
             this.label8.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 16);
@@ -399,51 +260,39 @@
             this.label8.Text = "y";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox6
+            // coordinates_relative_y
             // 
-            this.textBox6.Location = new System.Drawing.Point(91, 3);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(24, 20);
-            this.textBox6.TabIndex = 2;
+            this.coordinates_relative_y.Location = new System.Drawing.Point(84, 3);
+            this.coordinates_relative_y.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.coordinates_relative_y.Name = "coordinates_relative_y";
+            this.coordinates_relative_y.Size = new System.Drawing.Size(57, 20);
+            this.coordinates_relative_y.TabIndex = 2;
+            this.coordinates_relative_y.Text = "0";
             // 
-            // label9
+            // player_relative_group
             // 
-            this.label9.AutoSize = true;
-            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label9.Location = new System.Drawing.Point(3, 31);
-            this.label9.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
-            this.label9.TabIndex = 5;
-            this.label9.Text = "label9";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label10.Location = new System.Drawing.Point(41, 31);
-            this.label10.Margin = new System.Windows.Forms.Padding(3, 5, 0, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(41, 13);
-            this.label10.TabIndex = 6;
-            this.label10.Text = "label10";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.player_relative_group.Controls.Add(this.flowLayoutPanel3);
+            this.player_relative_group.Enabled = false;
+            this.player_relative_group.Location = new System.Drawing.Point(6, 118);
+            this.player_relative_group.Name = "player_relative_group";
+            this.player_relative_group.Size = new System.Drawing.Size(220, 47);
+            this.player_relative_group.TabIndex = 2;
+            this.player_relative_group.TabStop = false;
+            this.player_relative_group.Text = "Add offset";
             // 
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.Controls.Add(this.label11);
-            this.flowLayoutPanel3.Controls.Add(this.textBox7);
-            this.flowLayoutPanel3.Controls.Add(this.label12);
-            this.flowLayoutPanel3.Controls.Add(this.textBox8);
+            this.flowLayoutPanel3.Controls.Add(this.player_relative_x);
             this.flowLayoutPanel3.Controls.Add(this.label13);
-            this.flowLayoutPanel3.Controls.Add(this.textBox9);
+            this.flowLayoutPanel3.Controls.Add(this.player_relative_y);
+            this.flowLayoutPanel3.Controls.Add(this.label12);
+            this.flowLayoutPanel3.Controls.Add(this.player_relative_z);
             this.flowLayoutPanel3.Controls.Add(this.label14);
             this.flowLayoutPanel3.Controls.Add(this.label15);
             this.flowLayoutPanel3.Location = new System.Drawing.Point(6, 15);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(122, 26);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(208, 26);
             this.flowLayoutPanel3.TabIndex = 12;
             // 
             // label11
@@ -459,20 +308,21 @@
             this.label11.Text = "x";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox7
+            // player_relative_x
             // 
-            this.textBox7.Location = new System.Drawing.Point(14, 3);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(24, 20);
-            this.textBox7.TabIndex = 0;
+            this.player_relative_x.Location = new System.Drawing.Point(14, 3);
+            this.player_relative_x.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.player_relative_x.Name = "player_relative_x";
+            this.player_relative_x.Size = new System.Drawing.Size(55, 20);
+            this.player_relative_x.TabIndex = 0;
+            this.player_relative_x.Text = "0";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(38, 5);
+            this.label12.Location = new System.Drawing.Point(141, 5);
             this.label12.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(14, 16);
@@ -480,20 +330,21 @@
             this.label12.Text = "z";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox8
+            // player_relative_z
             // 
-            this.textBox8.Location = new System.Drawing.Point(52, 3);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(24, 20);
-            this.textBox8.TabIndex = 1;
+            this.player_relative_z.Location = new System.Drawing.Point(155, 3);
+            this.player_relative_z.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.player_relative_z.Name = "player_relative_z";
+            this.player_relative_z.Size = new System.Drawing.Size(53, 20);
+            this.player_relative_z.TabIndex = 1;
+            this.player_relative_z.Text = "0";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(76, 5);
+            this.label13.Location = new System.Drawing.Point(69, 5);
             this.label13.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(15, 16);
@@ -501,13 +352,14 @@
             this.label13.Text = "y";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox9
+            // player_relative_y
             // 
-            this.textBox9.Location = new System.Drawing.Point(91, 3);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(24, 20);
-            this.textBox9.TabIndex = 2;
+            this.player_relative_y.Location = new System.Drawing.Point(84, 3);
+            this.player_relative_y.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.player_relative_y.Name = "player_relative_y";
+            this.player_relative_y.Size = new System.Drawing.Size(57, 20);
+            this.player_relative_y.TabIndex = 2;
+            this.player_relative_y.Text = "0";
             // 
             // label14
             // 
@@ -533,22 +385,119 @@
             this.label15.Text = "label15";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.filesListBox);
+            this.groupBox4.Controls.Add(this.changeBinvoxDirButton);
+            this.groupBox4.Location = new System.Drawing.Point(15, 54);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(323, 174);
+            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "File to plot";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.flowLayoutPanel1);
+            this.groupBox5.Enabled = false;
+            this.groupBox5.Location = new System.Drawing.Point(253, 234);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(85, 112);
+            this.groupBox5.TabIndex = 10;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Translation";
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.x);
+            this.flowLayoutPanel1.Controls.Add(this.textBox1);
+            this.flowLayoutPanel1.Controls.Add(this.label5);
+            this.flowLayoutPanel1.Controls.Add(this.textBox2);
+            this.flowLayoutPanel1.Controls.Add(this.label1);
+            this.flowLayoutPanel1.Controls.Add(this.textBox3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(15, 18);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(48, 88);
+            this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // x
+            // 
+            this.x.AutoSize = true;
+            this.x.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.x.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.x.Location = new System.Drawing.Point(0, 5);
+            this.x.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.x.Name = "x";
+            this.x.Size = new System.Drawing.Size(14, 16);
+            this.x.TabIndex = 3;
+            this.x.Text = "x";
+            this.x.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(14, 3);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(24, 20);
+            this.textBox1.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 57);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(14, 16);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "z";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(15, 29);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(24, 20);
+            this.textBox2.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(0, 31);
+            this.label5.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(15, 16);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "y";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(14, 55);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(24, 20);
+            this.textBox3.TabIndex = 2;
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.logBox);
-            this.groupBox6.Location = new System.Drawing.Point(15, 290);
+            this.groupBox6.Location = new System.Drawing.Point(15, 414);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(439, 111);
+            this.groupBox6.Size = new System.Drawing.Size(323, 111);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Log";
-            this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
             // 
             // Mineplot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(461, 415);
+            this.ClientSize = new System.Drawing.Size(353, 530);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -561,16 +510,16 @@
             this.Load += new System.EventHandler(this.Mineplot_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.coordinates_relative_group.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
+            this.player_relative_group.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.flowLayoutPanel2.ResumeLayout(false);
-            this.flowLayoutPanel2.PerformLayout();
-            this.flowLayoutPanel3.ResumeLayout(false);
-            this.flowLayoutPanel3.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -585,11 +534,11 @@
         private System.Windows.Forms.Button changeBinvoxDirButton;
         public System.Windows.Forms.FolderBrowserDialog binvoxDirEntry;
         private System.Windows.Forms.ListBox logBox;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton player_relative;
+        private System.Windows.Forms.RadioButton coordinates_relative;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox coordinates_relative_group;
+        private System.Windows.Forms.GroupBox player_relative_group;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
@@ -598,25 +547,21 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox coordinates_relative_x;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox coordinates_relative_z;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox coordinates_relative_y;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox player_relative_x;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox player_relative_z;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox player_relative_y;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox6;
