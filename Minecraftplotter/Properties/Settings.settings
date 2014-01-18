@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MineplotApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="minecraftTitle" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Minecraft 1.7.4</Value>
+    </Setting>
+    <Setting Name="binVoxDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="relative_x" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="relative_y" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="relative_z" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="resumefrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

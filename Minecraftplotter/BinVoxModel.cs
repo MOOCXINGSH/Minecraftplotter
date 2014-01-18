@@ -10,25 +10,31 @@ using System.Threading.Tasks;
 namespace BinVox
 {
 
-    class Dims
+    public class Dims
     {
+        public Dims(int depth, int height, int width)
+        {
+            this.depth=depth;
+            this.height=height;
+            this.width=width;
+        }
+        
         public int depth { get; set; }
         public int height { get; set; }
         public int width { get; set; }
     }
 
-    class Translate
+    public class Translate
     {
-        public double x { get; set; }
-        public double y { get; set; }
-        public double z { get; set; }
-    }
-
-    class Header
-    {
-        public Dims dims { get; set; }
-        public Translate translate { get; set; }
-        public double scale { get; set; }
+        public Translate(float x, float y, float z)
+        {
+            this.x=x;
+            this.y=y;
+            this.z=z;
+        }
+        public float x { get; set; }
+        public float y { get; set; }
+        public float z { get; set; }
     }
 
     public class Voxel
@@ -144,7 +150,6 @@ namespace BinVox
         private bool header_read = false;
         private bool voxels_read = false;
 
-        private Header header = new Header();
         
         private byte[] voxels = new byte[300000];
 
@@ -155,19 +160,42 @@ namespace BinVox
         private int xmult = 0;
         private int zmult = 0;
         
-        private int size = 0;
- 
-        public BinVoxModel(string fileName)
+        public int size = 0;
+
+        public int present_voxels = 0;
+
+        public Dims dims;
+
+        public Translate translate;
+
+        public double scale;
+
+        public BinVoxModel(string fileName, int x=0, int y=0, int z=0)
         {
+
+            atx = x;
+            aty = y;
+            atz = z;
+
             if (File.Exists(fileName)) {
                binVoxStream = new LineReader(File.Open(fileName, FileMode.Open), Encoding.UTF8);
             }
             
-            this.getHeader();
-            this.getVoxels();
 
-            xmult = header.dims.width*header.dims.height;
-            zmult = header.dims.width;
+            this.readHeader();
+            try
+            {
+                this.readVoxels();
+            }
+            catch (IOException)
+            {
+
+            }
+            
+            binVoxStream.Close();
+
+            xmult = dims.width*dims.height;
+            zmult = dims.width;
         }
 
         public int Index(int x, int z, int y) {
@@ -187,11 +215,11 @@ namespace BinVox
 
         public Voxel Next()
         {
-            if (aty == header.dims.height)
+            if (aty == dims.height)
             {
-                if (atz == header.dims.width)
+                if (atz == dims.width)
                 {
-                    if (atx < header.dims.depth) { atx++; atz = 0; }
+                    if (atx < dims.depth) { atx++; atz = 0; }
                 }
                 else
                 {
@@ -216,11 +244,11 @@ namespace BinVox
             {
                 if (atz == 0)
                 {
-                    if (atx > 0) { atx--; atz = header.dims.width; }
+                    if (atx > 0) { atx--; atz = dims.width; }
                 }
                 else
                 {
-                    atz--; aty = header.dims.height;
+                    atz--; aty = dims.height;
                 }
             }
             else {
@@ -230,17 +258,13 @@ namespace BinVox
         }
         
 
-        public Header getHeader()
+        private void readHeader()
         {
             if (!header_read)
             {
                 
                 bool done=false;
                 
-                Dims dims = new Dims();
-                Translate translate = new Translate();
-                double scale = new double();
-
                 while (!done)
                 {
                     string line = binVoxStream.ReadLine();
@@ -249,23 +273,24 @@ namespace BinVox
                     {
                         done = true;
                         header_read=true;
-                        header.dims = dims;
-                        header.translate = translate;
-                        header.scale = scale;
                     }
                     else if (line.StartsWith("dim")) {
                         string[] dimensions = line.Split(' ');
-                        dims.depth = int.Parse(dimensions[1]);
-                        dims.height = int.Parse(dimensions[2]);
-                        dims.width = int.Parse(dimensions[3]);
+                        dims = new Dims(
+                            int.Parse(dimensions[1]),
+                            int.Parse(dimensions[2]),
+                            int.Parse(dimensions[3])
+                        );
 
                     }
                     else if (line.StartsWith("translate"))
                     {
                         string[] translations = line.Split(' ');
-                        translate.x = float.Parse(translations[1], CultureInfo.InvariantCulture);
-                        translate.y = float.Parse(translations[2], CultureInfo.InvariantCulture);
-                        translate.z = float.Parse(translations[3], CultureInfo.InvariantCulture);
+                        translate = new Translate(
+                            float.Parse(translations[1], CultureInfo.InvariantCulture),
+                            float.Parse(translations[2], CultureInfo.InvariantCulture),
+                            float.Parse(translations[3], CultureInfo.InvariantCulture)
+                        );
                     }
                     else if (line.StartsWith("scale")) {
                         string[] scales = line.Split(' ');
@@ -275,20 +300,18 @@ namespace BinVox
                 }
 
             }
-            return header;
         }
 
-        private void getVoxels()
+        private void readVoxels()
         {
             if (!voxels_read)
             {
-                size = header.dims.depth * header.dims.height * header.dims.depth;
+                size = dims.depth * dims.height * dims.depth;
 
                 byte value;
                 int count;
                 int index = 0;
                 int end_index = 0;
-                int nr_voxels = 0;
 
                 while (end_index < size)
                 {
@@ -299,12 +322,11 @@ namespace BinVox
                     end_index = index + count;
                     for (int i = index; i < end_index; i++) voxels[i] = value;
 
-                    if (value > 0) nr_voxels += count;
+                    if (value > 0) present_voxels += count;
                     index = end_index;
 
                 }  // while
                 voxels_read = true;
-                binVoxStream.Close();
             }
 
         }

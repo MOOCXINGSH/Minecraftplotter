@@ -18,29 +18,58 @@ namespace MineplotApp
 {
 
     public partial class Mineplot : Form
-    {   
-        private string directoryName;
+    {
         private FileDetail[] fileList;
-        private BinVoxModel binVox;
         private CancellationTokenSource cts;
         private bool plotting = false;
 
         public Mineplot()
         {
             InitializeComponent();
-            directoryName = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
-            binvoxDirEntry.SelectedPath = directoryName;
+            if (Properties.Settings.Default.binVoxDir == "")
+            {
+                Properties.Settings.Default.binVoxDir = new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
+            }
+            binvoxDirEntry.SelectedPath = Properties.Settings.Default.binVoxDir;
             UpdateFileList();
         }
-        
-        internal class FileDetail
+
+        public class ThreadInfo
+        {
+
+            public CancellationToken token { get; set; }
+            public FileDetail file { get; set; }
+
+            public string minecraftTitle { get; set; }
+            
+            public int resumefrom { get; set; }
+            public int relative_x { get; set; }
+            public int relative_y { get; set; }
+            public int relative_z { get; set; }
+
+            public ThreadInfo(CancellationToken token, FileDetail file, string minecraftTitle, int resumefrom, int relative_x, int relative_y, int relative_z)
+            {
+                this.token = token;
+                this.file = file;
+
+                this.minecraftTitle = minecraftTitle;
+                
+                this.resumefrom = resumefrom;
+                this.relative_x = relative_x;
+                this.relative_y = relative_y;
+                this.relative_z = relative_z;
+            }
+        }
+
+        public class FileDetail
         {
             public string Display { get; set; }
             public string FullName { get; set; }
         }
 
-        private void UpdateFileList(){
-            var dir = new DirectoryInfo(directoryName);
+        private void UpdateFileList()
+        {
+            var dir = new DirectoryInfo(Properties.Settings.Default.binVoxDir);
             filesListBox.Items.Clear();
 
             fileList = (from fi in dir.GetFiles()
@@ -53,12 +82,6 @@ namespace MineplotApp
             filesListBox.Items.AddRange(fileList);
         }
 
-
-        private void Mineplot_Load(object sender, EventArgs e)
-        {
-
-        }
-
         // Get a handle to an application window.
         [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(string lpClassName,
@@ -67,207 +90,99 @@ namespace MineplotApp
         // Activate an application window.
         [DllImport("USER32.DLL")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+        
         [DllImport("user32.dll", SetLastError = true)]
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-        // When you don't want the ProcessId, use this overload and pass IntPtr.Zero for the second parameter
-        [DllImport("user32.dll")]
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
-
-        [DllImport("kernel32.dll")]
-        static extern uint GetCurrentThreadId();
-
-        /// <summary>The GetForegroundWindow function returns a handle to the foreground window.</summary>
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool BringWindowToTop(IntPtr hWnd);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        static extern bool BringWindowToTop(HandleRef hWnd);
-
-        [DllImport("user32.dll")]
-        static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-
-        [DllImport("user32.dll")]
-        static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, UIntPtr dwExtraInfo);
-
-        [DllImport("user32.dll")]
-        static extern bool ClientToScreen(IntPtr hWnd, ref Point lpPoint);
-
-        private void ClickOnPoint(IntPtr wndHandle, Point clientPoint)
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+        [StructLayout(LayoutKind.Sequential)]
+        
+        private struct RECT
         {
-            var oldPos = Cursor.Position;
-
-            /// get screen coordinates
-            ClientToScreen(wndHandle, ref clientPoint);
-
-            /// set cursor on coords, and press mouse
-            Cursor.Position = new Point(clientPoint.X, clientPoint.Y);
-            mouse_event(0x00000002, 0, 0, 0, UIntPtr.Zero); /// left mouse button down
-            mouse_event(0x00000004, 0, 0, 0, UIntPtr.Zero); /// left mouse button up
-
-            /// return mouse 
-            Cursor.Position = oldPos;
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
         }
 
-        private void FocusWindow(IntPtr hWnd)
+
+
+        private static void plotInThread(object obj)
         {
-            // force window to have focus
-            uint foreThread = GetWindowThreadProcessId(hWnd, IntPtr.Zero);
-            uint appThread = GetCurrentThreadId();
-            const uint SW_SHOW = 5;
-            if (foreThread != appThread)
-            {
-                AttachThreadInput(foreThread, appThread, true);
-                BringWindowToTop(hWnd);
-                ShowWindow(hWnd, SW_SHOW);
-                AttachThreadInput(foreThread, appThread, false);
-            }
-            else
-            {
-                BringWindowToTop(hWnd);
-                ShowWindow(hWnd, SW_SHOW);
-            }
-        }
+            ThreadInfo info = (ThreadInfo)obj;
+            BinVoxModel binVox = new BinVoxModel(info.file.FullName);
 
-        private void filesList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            logBox.Items.Clear();
-            FileDetail selectedFile = fileList[filesListBox.SelectedIndex];
-
-            logBox.Items.Add(selectedFile.Display);
-
-            binVox = new BinVoxModel(selectedFile.FullName);
-
-            logBox.Items.Add("depth:" + binVox.getHeader().dims.depth +
-                " width:" + binVox.getHeader().dims.width +
-                " height:" + binVox.getHeader().dims.height);
-
-            plotButton.Enabled = true;
-        }
-
-        private void changeBinvoxDirButton_Click(object sender, EventArgs e)
-        {
-            if (binvoxDirEntry.ShowDialog() == DialogResult.OK)
-            {
-                directoryName = binvoxDirEntry.SelectedPath;
-                plotButton.Enabled = false;
-                UpdateFileList();
-            }
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void plotButton_Click(object sender, EventArgs e)
-        {
-            //Thread 1: The Requestor 
-            if (plotting == false)
-            {
-                plotButton.Text = "Stop";
-                plotting = true;
-                // Create the token source.
-                cts = new CancellationTokenSource();
-
-                // Pass the token to the cancelable operation.
-                ThreadPool.QueueUserWorkItem(new WaitCallback(plotInThread), cts.Token);
-            }
-
-            else
-            {
-                plotting = false;
-                plotButton.Text = "Plot!";
-
-                // Request cancellation by setting a flag on the token.
-                cts.Cancel();
-            }
-        }
-
-        private void plotInThread(object obj)
-        {
-            CancellationToken token = (CancellationToken)obj;
-
+            int resumefrom = info.resumefrom;
+            int addx = info.relative_x;
+            int addy = info.relative_y;
+            int addz = info.relative_z;
+            
             Thread.Sleep(100);
             // and window name were obtained using the Spy++ tool.
-            IntPtr minecraftHandle = FindWindow(null, minecraftTitle.Text);
+            IntPtr minecraftHandle = FindWindow(null, info.minecraftTitle);
 
             // Verify that Calculator is a running process. 
             if (minecraftHandle == IntPtr.Zero)
             {
-                MessageBox.Show("Minecraft with title '" + minecraftTitle.Text + "' not running");
+                MessageBox.Show("Minecraft with title '" + info.minecraftTitle + "' not running");
                 return;
             }
-            
+
             // FocusWindow(minecraftHandle); // later?
-            
+
             SetForegroundWindow(minecraftHandle);
-            
-            string player_mod = "";
-            int addx;
-            int addz;
-            int addy;
-            if (player_relative.Checked)
-            {
-                player_mod = "~";
-                addx = int.Parse(player_relative_x.Text);
-                addz = int.Parse(player_relative_z.Text);
-                addy = int.Parse(player_relative_y.Text);
-            }
-            else
-            {
-                addx = int.Parse(coordinates_relative_x.Text);
-                addz = int.Parse(coordinates_relative_z.Text);
-                addy = int.Parse(coordinates_relative_y.Text);
-            }
+
+
 
             Thread.Sleep(100);
 
             // ClickOnPoint(minecraftHandle, new Point(375, 340)); // hrm
 
             SendKeys.SendWait("{ESC}");
-            int blocksplaced = 0;        
+            
+            int blocksplaced = 0;
+
             while (binVox.HasNext())
             {
 
-
                 Voxel voxel = binVox.Next();
-                
+
                 if (voxel.is_present)
                 {
-                    if (token.IsCancellationRequested)
+
+                    if (info.token.IsCancellationRequested)
                     {
                         break;
                     }
-                    
+
+
                     blocksplaced++;
+                    if (blocksplaced < resumefrom) continue;
+
                     if (blocksplaced % 20 == 0)
                     {
+                        Properties.Settings.Default.resumefrom = blocksplaced.ToString();
                         Thread.Sleep(5000);
                     }
-                    
-                    // logBox.Items.Add("x:" + voxel.x + " z:" + voxel.z + " y:" + voxel.y + " present: " + voxel.is_present);
-                   
-                    string cmd = "/setblock " + player_mod + (voxel.x + addx)
-                        + " " + player_mod + (voxel.y + addy)
-                        + " " + player_mod + (voxel.z + addz) 
+
+                    string cmd = "/setblock " + (voxel.x + addx)
+                        + " " + (voxel.y + addy)
+                        + " " + (voxel.z + addz)
                         + " minecraft:sandstone 0 destroy";
-                    // logBox.Items.Add(cmd);
-
-
+                    
                     SendKeys.SendWait("t");
-                    
-                    Thread.Sleep(120);
-                    
 
-                    
+                    Thread.Sleep(120);
+
+
+
                     string[] keys = cmd.Select(x => x.ToString()).ToArray();
 
                     for (int i = 0; i < keys.Length; i++)
@@ -284,7 +199,7 @@ namespace MineplotApp
                         }
 
                     }
-                    
+
                     Thread.Sleep(10);
 
                     SendKeys.SendWait("{ENTER}");
@@ -296,18 +211,118 @@ namespace MineplotApp
 
         }
 
-        private void coordinates_relative_CheckedChanged(object sender, EventArgs e)
+        private void Mineplot_Load(object sender, EventArgs e)
         {
-            if (coordinates_relative.Checked) coordinates_relative_group.Enabled = true;
-            else coordinates_relative_group.Enabled = false;
+            minecraftTitle.Text = Properties.Settings.Default.minecraftTitle;
+            coordinates_relative_x.Text = Properties.Settings.Default.relative_x;
+            coordinates_relative_y.Text = Properties.Settings.Default.relative_y;
+            coordinates_relative_z.Text = Properties.Settings.Default.relative_z;
+            resume_voxel.Text = Properties.Settings.Default.resumefrom;
         }
 
-        private void player_relative_CheckedChanged(object sender, EventArgs e)
+        private void plotButton_Click(object sender, EventArgs e)
         {
-            if (player_relative.Checked) player_relative_group.Enabled = true;
-            else player_relative_group.Enabled = false;
+            //Thread 1: The Requestor 
+            if (plotting == false)
+            {
+                plotButton.Text = "Stop";
+                plotting = true;
+                
+                int resumefrom = int.Parse(resume_voxel.Text);
+
+                // Create the token source.                                
+                cts = new CancellationTokenSource();
+
+                // Pass the token to the cancelable operation.
+                ThreadPool.QueueUserWorkItem(new WaitCallback(plotInThread),
+                    new ThreadInfo(
+                        cts.Token,
+                        fileList[filesListBox.SelectedIndex],
+
+                        minecraftTitle.Text,
+
+                        resumefrom,
+                        int.Parse(coordinates_relative_x.Text),
+                        int.Parse(coordinates_relative_y.Text),
+                        int.Parse(coordinates_relative_z.Text)
+                    )
+                );
+            }
+
+            else
+            {
+                plotting = false;
+                plotButton.Text = "Plot!";
+
+                Properties.Settings.Default.Save();
+                resume_voxel.Text = Properties.Settings.Default.resumefrom;
+
+                // Request cancellation by setting a flag on the token.
+                if (cts != null) cts.Cancel();
+            }
+        }
+
+        private void filesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            FileDetail selectedFile = fileList[filesListBox.SelectedIndex];
+            BinVoxModel binVox = new BinVoxModel(selectedFile.FullName);
+            
+            fileInfo.Clear();
+
+            fileInfo.AppendText("file: " + selectedFile.Display + "\r\n\r\n");
+
+            fileInfo.AppendText("depth: " + binVox.dims.depth + " width: " + binVox.dims.width + " height: " + binVox.dims.height + "\r\n");
+            fileInfo.AppendText("voxels: " + binVox.size + "\r\n");
+            fileInfo.AppendText("present voxels: " + binVox.present_voxels);
+
+            plotButton.Enabled = true;
+        }
+
+        private void changeBinvoxDirButton_Click(object sender, EventArgs e)
+        {
+            if (binvoxDirEntry.ShowDialog() == DialogResult.OK)
+            {
+                Properties.Settings.Default.binVoxDir = binvoxDirEntry.SelectedPath;
+                plotButton.Enabled = false;
+                UpdateFileList();
+            }
+        }
+
+        private void minecraftTitle_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.minecraftTitle = minecraftTitle.Text;
+        }
+
+        private void coordinates_relative_x_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.relative_x = coordinates_relative_x.Text;
 
         }
+
+        private void coordinates_relative_y_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.relative_y = coordinates_relative_y.Text;
+
+        }
+
+        private void coordinates_relative_z_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.relative_z = coordinates_relative_z.Text;
+        }
+
+        private void Mineplot_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
+
+        private void resume_voxel_TextChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.resumefrom = resume_voxel.Text;
+
+        }
+
 
     }
+
 }
