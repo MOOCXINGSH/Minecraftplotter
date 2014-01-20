@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using BinVox;
+using KeyboardBind;
 
 namespace MineplotApp
 {
@@ -22,7 +23,9 @@ namespace MineplotApp
         private FileDetail[] fileList;
         private CancellationTokenSource cts;
         private bool plotting = false;
-
+        KeyboardHook hook = new KeyboardHook();
+        private bool mining = false;
+        
         public Mineplot()
         {
             InitializeComponent();
@@ -32,6 +35,38 @@ namespace MineplotApp
             }
             binvoxDirEntry.SelectedPath = Properties.Settings.Default.binVoxDir;
             UpdateFileList();
+            hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(hook_KeyPressed);
+            // register the control + alt + F12 combination as hot key.
+            hook.RegisterHotKey(KeyboardBind.ModifierKeys.Control, Keys.F12);
+        }
+
+        void hook_KeyPressed(object sender, KeyPressedEventArgs e)
+        {
+            if (mining)
+            {
+                mouse_event((int)(MOUSEEVENTF_LEFTUP), 0, 0, 0, 0);
+                mining = false;
+
+            }
+            else
+            {
+                IntPtr minecraftHandle = FindWindow(null, minecraftTitle.Text);
+
+                // Verify that Calculator is a running process. 
+                if (minecraftHandle == IntPtr.Zero)
+                {
+                    MessageBox.Show("Minecraft with title '" + minecraftTitle.Text + "' not running");
+                    return;
+                }
+
+                SetForegroundWindow(minecraftHandle);
+
+                mouse_event((int)(MOUSEEVENTF_LEFTDOWN), 0, 0, 0, 0);
+
+                mining = true;
+
+            } 
+
         }
 
         public class ThreadInfo
@@ -94,11 +129,18 @@ namespace MineplotApp
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
-        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
-        private const int MOUSEEVENTF_LEFTUP = 0x04;
-        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-        private const int MOUSEEVENTF_RIGHTUP = 0x10;
-        
+        private const int MOUSEEVENTF_ABSOLUTE = 0x8000;
+        private const int MOUSEEVENTF_LEFTDOWN = 0x0002;
+        private const int MOUSEEVENTF_LEFTUP = 0x0004;
+        private const int MOUSEEVENTF_MIDDLEDOWN = 0x0020;
+        private const int MOUSEEVENTF_MIDDLEUP = 0x0040;
+        private const int MOUSEEVENTF_MOVE = 0x0001;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x0008;
+        private const int MOUSEEVENTF_RIGHTUP = 0x0010;
+        private const int MOUSEEVENTF_WHEEL = 0x0800;
+        private const int MOUSEEVENTF_XDOWN = 0x0080;
+        private const int MOUSEEVENTF_XUP = 0x0100;
+
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
@@ -111,8 +153,6 @@ namespace MineplotApp
             public int Right;
             public int Bottom;
         }
-
-
 
         private static void plotInThread(object obj)
         {
@@ -135,15 +175,9 @@ namespace MineplotApp
                 return;
             }
 
-            // FocusWindow(minecraftHandle); // later?
-
             SetForegroundWindow(minecraftHandle);
 
-
-
             Thread.Sleep(100);
-
-            // ClickOnPoint(minecraftHandle, new Point(375, 340)); // hrm
 
             SendKeys.SendWait("{ESC}");
             
